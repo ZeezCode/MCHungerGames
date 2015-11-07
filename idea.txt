@@ -1,0 +1,2 @@
+Idea:  
+Minecraft Hunger Games minigame, players spawn on specified points frozen, when enough players countdown begins, players unfrozen, rush towards chests w/ items, battle in enclosed space until one player remains, server resets
