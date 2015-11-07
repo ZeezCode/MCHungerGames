@@ -1,0 +1,2 @@
+# MCHungerGames
+CHEHacks MCHungerGames Hack
