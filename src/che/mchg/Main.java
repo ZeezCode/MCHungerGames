@@ -2,8 +2,6 @@ package che.mchg;
 import java.util.ArrayList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,7 +29,8 @@ public class Main extends JavaPlugin implements Listener {
 		players.add(ply);
 		String msg = ChatColor.BLACK+"["+ChatColor.DARK_RED+"CHEHG"+ChatColor.BLACK+"]"+ChatColor.YELLOW+ply.getName()+ChatColor.WHITE+" has joined the game!";
 		e.setJoinMessage(msg);
-		util.checkCanBegin();
+		if (util.checkCanBegin())
+			util.startCountdown();
 	}
 	@EventHandler
 	public void onPlayerLeave(PlayerQuitEvent e) {
