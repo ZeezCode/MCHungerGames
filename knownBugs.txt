@@ -1,3 +1,3 @@
 Known Bugs:  
  - Countdown will not begin if player leaves during countdown and player rejoins (countdown should start again --does not)  
- - Map doesn't reset && game needs to be re-joinable after server reset complete
+ - Map doesn't restore
