@@ -1,4 +1,3 @@
 Known Bugs:  
  - Countdown will not begin if player leaves during countdown and player rejoins (countdown should start again --does not)  
- - Set player's spawnPos to false when they leave before game starts
  - Server MOTD depending on game status (Only needs to be bug checked for game in progress)
