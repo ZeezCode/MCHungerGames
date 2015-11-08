@@ -1,5 +1,4 @@
 Known Bugs:  
  - Countdown will not begin if player leaves during countdown and player rejoins (countdown should start again --does not)  
- - Game does not end if players leave during match leaving one man remaining
  - Set player's spawnPos to false when they leave before game starts
  - Server MOTD depending on game status
