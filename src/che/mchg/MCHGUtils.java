@@ -53,4 +53,13 @@ public class MCHGUtils {
 			  }
 		}, 0L, 20L);
 	}
+	public boolean isNumber(String checked) {
+		try {
+			Integer.parseInt(checked);
+		}
+		catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
 }

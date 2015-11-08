@@ -1,0 +1,11 @@
+#Maximum players allowed in game
+maxPlayers: 20
+
+#Minimum players required to start game
+minPlayers: 1
+
+#Countdown length, should be at least 2 to avoid errors
+countdownLength: 30
+
+#Do not edit anything below this line if you don't know what you're doing
+spawnPositions: []

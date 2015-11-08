@@ -2,6 +2,8 @@ package che.mchg;
 import java.util.ArrayList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -40,5 +42,50 @@ public class Main extends JavaPlugin implements Listener {
 			players.remove(ply);
 		String msg = ChatColor.BLACK+"["+ChatColor.DARK_RED+"CHEHG"+ChatColor.BLACK+"]"+ChatColor.YELLOW+ply.getName()+ChatColor.WHITE+" has left the game.";
 		e.setQuitMessage(msg);
+	}
+	@SuppressWarnings("deprecation")
+	@Override
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		if (label.equalsIgnoreCase("hgkick")) {
+            if (args.length==0) {
+                    sender.sendMessage(ChatColor.RED+"Not enough args");
+                    return true;
+            }
+            Player target = Bukkit.getPlayer(args[0]);
+            if (target==null) {
+            		sender.sendMessage(ChatColor.RED+"Unable to find player");
+                    return true;
+            }
+            target.kickPlayer("You have been kicked by "+sender.getName()+".");
+		}
+		else if (label.equalsIgnoreCase("setspawnpos")) {
+			if (sender instanceof Player) {
+				Player ply = (Player) sender;
+				if (args.length==0) {
+					ply.sendMessage(ChatColor.RED+"You must provide a number.");
+					ply.sendMessage(ChatColor.RED+"Usage: /setspawnpos [number(1-"+getConfig().getInt("maxPlayers")+")]");
+					return true;
+				}
+				if (util.isNumber(args[0])) {
+					int uid = Integer.parseInt(args[0]);
+					double x, y, z;
+					x = ply.getLocation().getX();
+					y = ply.getLocation().getY();
+					z = ply.getLocation().getZ();
+					getConfig().set("spawnPositions."+uid+".x", x);
+					getConfig().set("spawnPositions."+uid+".y", y);
+					getConfig().set("spawnPositions."+uid+".z", z);
+					saveConfig();
+				}
+				else {
+					ply.sendMessage(ChatColor.RED+args[0]+" is not a valid integer.");
+					ply.sendMessage(ChatColor.RED+"Usage: /setspawnpos [number(1-"+getConfig().getInt("maxPlayers")+")]");
+				}
+			}
+			else {
+				sender.sendMessage(ChatColor.RED+"You must be a player to use this command.");
+			}
+		}
+		return true;
 	}
 }
