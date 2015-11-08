@@ -5,11 +5,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -78,6 +81,12 @@ public class Main extends JavaPlugin implements Listener {
 		playersPositions.remove(ply);
 		if (MCHGUtils.checkStart && players.size()==1) {
 			util.endGame();
+		}
+	}
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onBlockBreak(BlockBreakEvent e) {
+		if (e.getBlock().getType()==Material.GLASS) {
+			e.setCancelled(true);
 		}
 	}
 	@EventHandler
