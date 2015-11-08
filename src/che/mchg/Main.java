@@ -24,16 +24,22 @@ public class Main extends JavaPlugin implements Listener {
 	@EventHandler
 	public void onPlayerConnect(PlayerJoinEvent e) {
 		Player ply = e.getPlayer();
-		if (Bukkit.getServer().getOnlinePlayers().size() >= getConfig().getInt("maxPlayers")) { //if amt of players on server >= max allowed then deny any new players
+		if (Bukkit.getServer().getOnlinePlayers().size() >= getConfig().getInt("maxPlayers")) {
 			ply.kickPlayer("This server has reached the maximum amount of players allowed.\nPlease join back later!");
 			return;
 		}
+		if(MCHGUtils.checkStart==true) {
+			ply.kickPlayer("Sorry sir/ma'am, the game has already started. \n You may not join until the next round commences.");
+		}
 		players.add(ply);
+		for(Player ply2 : Bukkit.getServer().getOnlinePlayers()) {
+			util.freezePlayer(ply2);
+		}
 		String msg = ChatColor.BLACK+"["+ChatColor.DARK_RED+"CHEHG"+ChatColor.BLACK+"]"+ChatColor.YELLOW+ply.getName()+ChatColor.WHITE+" has joined the game!";
 		e.setJoinMessage(msg);
-		if (util.checkCanBegin()) {
+		if (util.checkCanBegin())
 			util.startCountdown();
-		}
+		ply.setWalkSpeed((float)0.2);
 	}
 	@EventHandler
 	public void onPlayerLeave(PlayerQuitEvent e) {
@@ -45,18 +51,20 @@ public class Main extends JavaPlugin implements Listener {
 	}
 	@SuppressWarnings("deprecation")
 	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if (label.equalsIgnoreCase("hgkick")) {
-            if (args.length==0) {
-                    sender.sendMessage(ChatColor.RED+"Not enough args");
-                    return true;
-            }
-            Player target = Bukkit.getPlayer(args[0]);
-            if (target==null) {
-            		sender.sendMessage(ChatColor.RED+"Unable to find player");
-                    return true;
-            }
-            target.kickPlayer("You have been kicked by "+sender.getName()+".");
+	public boolean onCommand(CommandSender sender, Command command,String label, String[] args) {
+		//hgkick
+		if(label.equalsIgnoreCase("hgkick") && sender instanceof Player) {
+			Player ply = (Player) sender;
+			if (args.length==0) {
+				ply.sendMessage(ChatColor.RED+"Not enough args");
+				return true;
+			}
+			Player target = Bukkit.getPlayer(args[0]);
+			if (target==null) {
+				ply.sendMessage(ChatColor.RED+"Unable to find player");
+				return true;
+			}
+			target.kickPlayer("You have been kicked by "+sender.getName()+". (He/She's an admin btw)");
 		}
 		else if (label.equalsIgnoreCase("setspawnpos")) {
 			if (sender instanceof Player) {
