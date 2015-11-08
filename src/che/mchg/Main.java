@@ -28,18 +28,16 @@ public class Main extends JavaPlugin implements Listener {
 			ply.kickPlayer("This server has reached the maximum amount of players allowed.\nPlease join back later!");
 			return;
 		}
-		if(MCHGUtils.checkStart==true) {
+		if(MCHGUtils.checkStart) {
 			ply.kickPlayer("Sorry sir/ma'am, the game has already started. \n You may not join until the next round commences.");
 		}
 		players.add(ply);
-		for(Player ply2 : Bukkit.getServer().getOnlinePlayers()) {
-			util.freezePlayer(ply2);
-		}
 		String msg = ChatColor.BLACK+"["+ChatColor.DARK_RED+"CHEHG"+ChatColor.BLACK+"]"+ChatColor.YELLOW+ply.getName()+ChatColor.WHITE+" has joined the game!";
 		e.setJoinMessage(msg);
-		if (util.checkCanBegin())
+		if (util.checkCanBegin()) {
+			Bukkit.broadcastMessage("I was checked and returned true");
 			util.startCountdown();
-		ply.setWalkSpeed((float)0.2);
+		}
 	}
 	@EventHandler
 	public void onPlayerLeave(PlayerQuitEvent e) {

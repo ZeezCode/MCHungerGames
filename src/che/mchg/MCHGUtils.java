@@ -8,6 +8,7 @@ public class MCHGUtils {
 	private int min;
 	public int number;
 	public static boolean checkStart = false;
+	public int taskID;
 	MCHGUtils(Main pl, int minP) {
 		this.plugin = pl;
 		this.min = minP;
@@ -17,6 +18,7 @@ public class MCHGUtils {
 		return ChatColor.BLACK+"["+ChatColor.DARK_RED+"CHEHG"+ChatColor.BLACK+"] "+ChatColor.RESET;
 	}
 	public boolean checkCanBegin() {
+		Bukkit.broadcastMessage("I am being checked");
 		return this.plugin.getServer().getOnlinePlayers().size() >= this.min;
 	}
 	public Main getPlugin() {
@@ -41,11 +43,10 @@ public class MCHGUtils {
 		}
 	}
 	public void startCountdown() {
-		this.plugin.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable() {
+		taskID = this.plugin.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable() {
 			public void run() {
 				if (number>=0) {
 					if (number==0) {
-
 						if (getThis().checkCanBegin()) {
 							getThis().startGame();
 						}
@@ -53,7 +54,9 @@ public class MCHGUtils {
 							getPlugin().getServer().broadcastMessage(getHGPrefix()+ChatColor.RED+"There are not enough players to start the game!");
 							getPlugin().getServer().broadcastMessage(getHGPrefix()+ChatColor.RED+"The countdown will restart when there are enough players to begin the game.");
 							resetCounter();
-							number=-1; 
+							number=-1;
+							getPlugin().getServer().getScheduler().cancelTask(taskID);
+							taskID = 0;
 						}
 					}
 					else if (number%5==0 || number <=15) {
