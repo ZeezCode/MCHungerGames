@@ -22,15 +22,16 @@ public class Main extends JavaPlugin implements Listener {
 	@EventHandler
 	public void onPlayerConnect(PlayerJoinEvent e) {
 		Player ply = e.getPlayer();
-		if (Bukkit.getServer().getOnlinePlayers().size() >= getConfig().getInt("maxPlayers")) {
+		if (Bukkit.getServer().getOnlinePlayers().size() >= getConfig().getInt("maxPlayers")) { //if amt of players on server >= max allowed then deny any new players
 			ply.kickPlayer("This server has reached the maximum amount of players allowed.\nPlease join back later!");
 			return;
 		}
 		players.add(ply);
 		String msg = ChatColor.BLACK+"["+ChatColor.DARK_RED+"CHEHG"+ChatColor.BLACK+"]"+ChatColor.YELLOW+ply.getName()+ChatColor.WHITE+" has joined the game!";
 		e.setJoinMessage(msg);
-		if (util.checkCanBegin())
+		if (util.checkCanBegin()) {
 			util.startCountdown();
+		}
 	}
 	@EventHandler
 	public void onPlayerLeave(PlayerQuitEvent e) {

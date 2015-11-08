@@ -1,4 +1,5 @@
 package che.mchg;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 public class MCHGUtils {
 	private Main plugin;
@@ -25,26 +26,31 @@ public class MCHGUtils {
 		this.number = this.plugin.getConfig().getInt("countdownLength");
 	}
 	public void startGame() {
-		//start game
+		for (int i=0; i<10; i++) {
+			Bukkit.broadcastMessage(getHGPrefix()+ChatColor.GREEN+"---LIVE---");
+		}
 	}
 	public void startCountdown() {
-		this.plugin.getServer().getScheduler().scheduleSyncDelayedTask(this.plugin, new Runnable() {
+		this.plugin.getServer().getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable() {
 			  public void run() {
-				  if (number%5==0 || number <=15) {
-					  getPlugin().getServer().broadcastMessage(getHGPrefix()+ChatColor.DARK_GREEN+"Game starting in "+number+" seconds...");
+				  if (number>=0) {
+					  if (number==0) {
+						  if (getThis().checkCanBegin()) {
+							  getThis().startGame();
+						  }
+						  else {
+							  getPlugin().getServer().broadcastMessage(getHGPrefix()+ChatColor.RED+"There are not enough players to start the game!");
+							  getPlugin().getServer().broadcastMessage(getHGPrefix()+ChatColor.RED+"The countdown will restart when there are enough players to begin the game.");
+							  resetCounter();
+							  number=-1;
+						  }
+					  }
+					  else if (number%5==0 || number <=15) {
+						  getPlugin().getServer().broadcastMessage(getHGPrefix()+ChatColor.DARK_GREEN+"Game starting in "+number+" seconds...");
+					  }
 					  number--;
 				  }
-				  if (number==0) {
-					  if (getThis().checkCanBegin()) {
-						  getThis().startGame();
-					  }
-					  else {
-						  getPlugin().getServer().broadcastMessage(getHGPrefix()+ChatColor.RED+"There are not enough players to start the game!");
-						  getPlugin().getServer().broadcastMessage(getHGPrefix()+ChatColor.RED+"The countdown will restart when there are enough players to begin the game.");
-						  resetCounter();
-					  }
-				  }
 			  }
-		}, this.plugin.getConfig().getInt("countdownLength") * 20L);
+		}, 0L, 20L);
 	}
 }
