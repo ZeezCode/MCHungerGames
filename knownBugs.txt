@@ -1,2 +1,3 @@
 Known Bugs:  
- - Countdown will not begin if player leaves during countdown and player rejoins (countdown should start again --does not)
+ - Countdown will not begin if player leaves during countdown and player rejoins (countdown should start again --does not)  
+ - Game does not end if players leave during match leaving one man remaining
